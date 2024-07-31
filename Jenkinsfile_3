@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven_3.9.8'
+    }
+
+    stages {
+        stage('Code Checkout') {
+            steps {
+             checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_sk', url: 'https://github.com/saikiran232/java_app.git']])
+             
+            }
+
+        }
+        stage('Unit Testing') {
+            steps {
+                sh '''
+                    cd ./calculator_app
+                    mvn test
+                '''
+            }
+        }
+   stage('Integration Testing') {
+            steps {
+                dir('./calculator_app') {
+                    sh 'mvn integration-test'
+                }
+            }
+        }
+
+        stage('Load Testing') {
+            steps {
+                dir('./calculator_app') {
+                    sh 'mvn  verify'
+                }
+            }
+        }
+
+        stage('Check Files') {
+            steps {
+                dir('./calculator_app/') {
+                    sh 'tree'
+                }
+            }
+        }
+
+    }
+}        
