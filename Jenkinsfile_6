@@ -1,14 +1,14 @@
 pipeline {
     agent any
-Stages{
-        stage('Unit Testing1') {
+    stages{
+          stage('Unit Testing1') {
             agent {
                 docker {
                     image 'maven_3.9.8'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
-           steps {
+            steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_sk', url: 'https://github.com/saikiran232/java_app.git']])
                 sh 'cd calculator_app; mvn test'
             }
@@ -21,8 +21,5 @@ Stages{
                 '''
             }
         }
-
-
-
     }
 }        
