@@ -11,6 +11,15 @@ pipeline {
              checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github_sk', url: 'https://github.com/saikiran232/java_app.git']])
              
             }
+
+        }
+        stage('Unit Testing') {
+            steps {
+                sh '''
+                    cd ./calculator_app
+                    mvn test
+                '''
+            }
         }
     }
 }        
