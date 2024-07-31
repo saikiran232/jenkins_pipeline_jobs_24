@@ -4,7 +4,7 @@ pipeline {
           stage('Unit Testing1') {
             agent {
                 docker {
-                    image 'maven_3.9.8'
+                    image 'maven'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
